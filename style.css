@@ -1,0 +1,213 @@
+:root {
+    --bg-dark: #121212;
+    --bg-medium: #1f1f1f;
+    --text-light: #ffffff;
+    --text-muted: #b3b3b3;
+    --accent-color: #1ed760; /* Verde vibrante, como em apps de música */
+    --border-color: #2e2e2e;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+}
+
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* Layout Principal */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 300px;
+    background-color: var(--bg-medium);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-item:hover, .nav-item.active {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+}
+
+.nav-item svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Playlist Section */
+.playlist-section h2 {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+#current-playlist {
+    list-style: none;
+    margin-bottom: 20px;
+    padding-left: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#current-playlist li {
+    padding: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Botões (Simulando o Radix/Shadcn design) */
+.btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn.primary {
+    background-color: var(--accent-color);
+    color: var(--bg-dark);
+}
+
+.btn.primary:hover {
+    background-color: #2ecc71; /* tom mais claro */
+}
+
+.btn.secondary {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    border: 1px solid var(--border-color);
+    padding: 5px 10px;
+}
+
+.btn.secondary:hover {
+    background-color: #333333;
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    padding: 30px;
+    max-width: calc(100% - 300px);
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+}
+
+.search-bar input {
+    padding: 10px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-medium);
+    color: var(--text-light);
+    width: 300px;
+}
+
+.search-btn {
+    background-color: var(--bg-dark);
+    color: var(--text-muted);
+}
+
+/* Music List */
+.music-list-container h3 {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.music-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.music-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-medium);
+    padding: 15px;
+    border-radius: var(--radius-md);
+    transition: background-color 0.2s;
+}
+
+.music-item:hover {
+    background-color: #282828;
+}
+
+.track-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.track-title {
+    font-weight: 700;
+}
+
+.track-artist {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Efeito de Remoção na Playlist */
+.remove-btn {
+    color: #ff4d4d; /* Cor de erro/remoção */
+}
+
+/* Estilo para template (escondido por padrão) */
+template {
+    display: none;
+}
