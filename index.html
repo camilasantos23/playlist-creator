@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playlist Creator - Vanilla JS</title>
+    <title>Playlist Creator</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -12,7 +12,8 @@
 
     <div class="app-container">
         <aside class="sidebar">
-            <h1 class="logo">🎶 DreamMusic</h1>
+            <h1 class="logo">🎶DreamMusic</h1>
+            
             <nav class="nav-menu">
                 <a href="#" class="nav-item active">
                     <i data-lucide="home"></i> Início
@@ -20,12 +21,18 @@
                 <a href="#" class="nav-item">
                     <i data-lucide="music"></i> Músicas
                 </a>
-                <a href="#" class="nav-item">
-                    <i data-lucide="search"></i> Buscar
-                </a>
             </nav>
+            
             <div class="playlist-section">
-                <h2>Minha Playlist</h2>
+                <h2>Crie Sua Playlist</h2>
+                
+                <div class="playlist-name-group">
+                    <label for="playlist-name">Nome da Playlist</label>
+                    <input type="text" id="playlist-name" placeholder="Ex: Músicas Favoritas" value="Minha Nova Playlist">
+                </div>
+                
+                <h3 id="playlist-title-display">Minha Nova Playlist</h3>
+                
                 <ul id="current-playlist">
                     </ul>
                 <button id="save-playlist" class="btn primary">Salvar Playlist</button>
@@ -34,7 +41,7 @@
 
         <main class="main-content">
             <header class="content-header">
-                <h2>Descubra Novas Músicas</h2>
+                <h2>Adicione Músicas</h2>
                 <div class="search-bar">
                     <input type="text" id="music-search" placeholder="Busque por música ou artista...">
                     <button class="btn search-btn"><i data-lucide="search"></i></button>
@@ -42,7 +49,7 @@
             </header>
 
             <section class="music-list-container">
-                <h3>Resultados da Busca (Mock)</h3>
+                <h3>Faixas Disponíveis (Mock)</h3>
                 <div id="music-results" class="music-list">
                     </div>
             </section>
@@ -66,7 +73,7 @@
             <span class="track-title"></span> - 
             <span class="track-artist"></span>
             <button class="remove-btn btn secondary" data-track-id="">
-                <i data-lucide="minus-circle"></i> Remover
+                <i data-lucide="minus-circle"></i>
             </button>
         </li>
     </template>
