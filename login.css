@@ -1,0 +1,129 @@
+:root {
+    --bg-dark: #121212;
+    --bg-medium: #1f1f1f;
+    --text-light: #ffffff;
+    --text-muted: #b3b3b3;
+    --accent-color: #1ed760; /* Verde vibrante */
+    --border-color: #2e2e2e;
+    --radius-sm: 4px;
+    --radius-md: 8px;
+}
+
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container de Login */
+.login-container {
+    background-color: var(--bg-medium);
+    padding: 40px;
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 400px; /* Limita a largura do formulário */
+    text-align: center;
+}
+
+.logo {
+    font-size: 2rem;
+    color: var(--accent-color);
+    margin-bottom: 30px;
+}
+
+/* Formulário e Inputs */
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+    border-color: var(--accent-color);
+    outline: none;
+}
+
+/* Botão de Login (Reutilizando a classe 'primary' do seu projeto) */
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn.primary {
+    background-color: var(--accent-color);
+    color: var(--bg-dark);
+}
+
+.btn.primary:hover {
+    background-color: #2ecc71; 
+}
+
+/* Mensagem de Feedback */
+.login-feedback {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    min-height: 20px; /* Garante espaço para a mensagem */
+}
+
+.login-feedback.error {
+    color: #ff4d4d; /* Vermelho para erro */
+    font-weight: 600;
+}
+
+.login-feedback.success {
+    color: var(--accent-color); /* Verde para sucesso */
+    font-weight: 600;
+}
+
+/* Link Rodapé */
+.footer-link {
+    margin-top: 25px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.footer-link a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.footer-link a:hover {
+    text-decoration: underline;
+}
