@@ -5,13 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Playlist Creator</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<<<<<<< HEAD
     <link rel="stylesheet" href="styles.css">
+=======
+    <link rel="stylesheet" href="style.css">
+>>>>>>> c470d9e780dadd1ff55207b86ead972c370a1217
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
     <div class="app-container">
         <aside class="sidebar">
+<<<<<<< HEAD
             <h1 class="logo">🎶 DreamMusic</h1>
             
             <nav class="nav-menu">
@@ -20,6 +25,16 @@
                 </a>
                 <a href="#" class="nav-item" data-view="profile">
                     <i data-lucide="user"></i> Seu Perfil
+=======
+            <h1 class="logo">🎶DreamMusic</h1>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active">
+                    <i data-lucide="home"></i> Início
+                </a>
+                <a href="#" class="nav-item">
+                    <i data-lucide="music"></i> Músicas
+>>>>>>> c470d9e780dadd1ff55207b86ead972c370a1217
                 </a>
             </nav>
             
@@ -40,6 +55,7 @@
         </aside>
 
         <main class="main-content">
+<<<<<<< HEAD
             <section id="home-view" class="view active-view">
                 <header class="content-header">
                     <h2>Adicione Músicas</h2>
@@ -86,6 +102,20 @@
                             </div>
                     </section>
                 </div>
+=======
+            <header class="content-header">
+                <h2>Adicione Músicas</h2>
+                <div class="search-bar">
+                    <input type="text" id="music-search" placeholder="Busque por música ou artista...">
+                    <button class="btn search-btn"><i data-lucide="search"></i></button>
+                </div>
+            </header>
+
+            <section class="music-list-container">
+                <h3>Faixas Disponíveis (Mock)</h3>
+                <div id="music-results" class="music-list">
+                    </div>
+>>>>>>> c470d9e780dadd1ff55207b86ead972c370a1217
             </section>
         </main>
     </div>
@@ -111,6 +141,7 @@
             </button>
         </li>
     </template>
+<<<<<<< HEAD
     
     <template id="profile-card-template">
         <div class="profile-card">
@@ -121,6 +152,12 @@
 
     <script src="script.js"></script>
     <script>
+=======
+
+    <script src="script.js"></script>
+    <script>
+        // Inicializa os ícones do Lucide após o carregamento do DOM
+>>>>>>> c470d9e780dadd1ff55207b86ead972c370a1217
         lucide.createIcons();
     </script>
 </body>
