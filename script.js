@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Dados simulados de músicas
+    // --- Dados Simulados (Mock Data) ---
     const mockTracks = [
         { id: '1', title: 'Midnight City', artist: 'M83' },
         { id: '2', title: 'Blinding Lights', artist: 'The Weeknd' },
@@ -8,24 +8,115 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: '5', title: 'Bohemian Rhapsody', artist: 'Queen' },
         { id: '6', title: 'Levitating', artist: 'Dua Lipa' },
     ];
+    
+    const mockProfileData = {
+        artists: [
+            { id: 1, name: "The Weeknd", icon: "Mic" },
+            { id: 2, name: "Lady Gaga", icon: "Mic" },
+            { id: 3, name: "Queen", icon: "Mic" },
+            { id: 4, name: "Dua Lipa", icon: "Mic" }
+        ],
+        users: [
+            { id: 10, name: "Maria_S", icon: "User" },
+            { id: 11, name: "Ricardo.M", icon: "User" },
+            { id: 12, name: "MusicLover", icon: "User" }
+        ],
+        playlists: [
+            { id: 20, name: "Hits dos Anos 80", icon: "ListMusic" },
+            { id: 21, name: "Chill Vibes", icon: "ListMusic" },
+            { id: 22, name: "Rock Clássico", icon: "ListMusic" },
+            { id: 23, name: "Treino", icon: "ListMusic" }
+        ]
+    };
 
+    // --- Elementos DOM & Estado ---
     let currentPlaylist = [];
     let playlistName = document.getElementById('playlist-name').value;
 
-    const musicResultsEl = document.getElementById('music-results');
+    const navItems = document.querySelectorAll('.nav-item');
+    const views = document.querySelectorAll('.view');
+    
     const currentPlaylistEl = document.getElementById('current-playlist');
-    const musicItemTemplate = document.getElementById('music-item-template');
-    const playlistItemTemplate = document.getElementById('playlist-item-template');
+    const musicResultsEl = document.getElementById('music-results');
     const playlistNameInput = document.getElementById('playlist-name');
     const playlistTitleDisplay = document.getElementById('playlist-title-display');
     const savePlaylistButton = document.getElementById('save-playlist');
+    
+    const musicItemTemplate = document.getElementById('music-item-template');
+    const playlistItemTemplate = document.getElementById('playlist-item-template');
+    const profileCardTemplate = document.getElementById('profile-card-template');
+
+    const followedArtistsEl = document.getElementById('followed-artists');
+    const followedUsersEl = document.getElementById('followed-users');
+    const userPlaylistsEl = document.getElementById('user-playlists');
 
 
-    // --- Funções de Renderização e Atualização ---
+    // --- Funções de Navegação e View ---
 
     /**
-     * Renderiza o item de música na lista de resultados.
+     * Alterna a view principal e a navegação ativa.
+     * @param {string} viewId - O ID da view a ser exibida (ex: 'home', 'profile').
      */
+    function switchView(viewId) {
+        views.forEach(view => {
+            if (view.id === `${viewId}-view`) {
+                view.classList.remove('hidden-view');
+                view.classList.add('active-view');
+            } else {
+                view.classList.remove('active-view');
+                view.classList.add('hidden-view');
+            }
+        });
+
+        navItems.forEach(item => {
+            if (item.getAttribute('data-view') === viewId) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+
+        // Ações específicas ao mudar de view
+        if (viewId === 'profile') {
+            renderProfile();
+        } else { // Trata 'home' e qualquer outra view principal
+             updateUI(); 
+        }
+    }
+
+    // --- Funções de Renderização de Perfil ---
+
+    function createProfileCard(item, iconName) {
+        const clone = profileCardTemplate.content.cloneNode(true);
+        clone.querySelector('.card-name').textContent = item.name;
+        
+        const cardIcon = clone.querySelector('.card-icon');
+        cardIcon.innerHTML = `<i data-lucide="${iconName}"></i>`; 
+        
+        lucide.createIcons(); 
+        
+        return clone;
+    }
+
+    function renderProfile() {
+        followedArtistsEl.innerHTML = '';
+        mockProfileData.artists.forEach(artist => {
+            followedArtistsEl.appendChild(createProfileCard(artist, 'Mic'));
+        });
+
+        followedUsersEl.innerHTML = '';
+        mockProfileData.users.forEach(user => {
+            followedUsersEl.appendChild(createProfileCard(user, 'User')); 
+        });
+
+        userPlaylistsEl.innerHTML = '';
+        mockProfileData.playlists.forEach(playlist => {
+            userPlaylistsEl.appendChild(createProfileCard(playlist, 'ListMusic'));
+        });
+    }
+
+    // --- Funções de Playlist ---
+
     function renderMusicItem(track) {
         const clone = musicItemTemplate.content.cloneNode(true);
         const addButton = clone.querySelector('.add-btn');
@@ -35,15 +126,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         addButton.setAttribute('data-track-id', track.id);
         
-        // Adicionar o evento de clique para adicionar à playlist
         addButton.addEventListener('click', () => addTrackToPlaylist(track.id));
         
         musicResultsEl.appendChild(clone);
     }
 
-    /**
-     * Renderiza o item de música na playlist.
-     */
     function renderPlaylistItem(track) {
         const clone = playlistItemTemplate.content.cloneNode(true);
         const removeButton = clone.querySelector('.remove-btn');
@@ -53,20 +140,16 @@ document.addEventListener('DOMContentLoaded', () => {
         
         removeButton.setAttribute('data-track-id', track.id);
 
-        // Adicionar o evento de clique para remover da playlist
         removeButton.addEventListener('click', () => removeTrackFromPlaylist(track.id));
         
         currentPlaylistEl.appendChild(clone);
     }
     
-    /**
-     * Atualiza a exibição da lista de resultados e da playlist.
-     */
     function updateUI() {
         // 1. Atualiza o nome da playlist
         playlistTitleDisplay.textContent = playlistName;
 
-        // 2. Limpa e renderiza a lista de resultados (simulada)
+        // 2. Limpa e renderiza a lista de resultados (MÚSICAS VISÍVEIS)
         musicResultsEl.innerHTML = '';
         mockTracks.forEach(renderMusicItem);
 
@@ -87,19 +170,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.textContent = 'Adicionado';
             } else {
                  btn.disabled = false;
-                 // O texto deve ser definido como HTML para que o ícone funcione
                  btn.innerHTML = '<i data-lucide="plus"></i> Adicionar';
-                 // Re-inicializa os ícones após alterar o innerHTML
                  lucide.createIcons(); 
             }
         });
     }
 
-    // --- Funções de Lógica ---
-
-    /**
-     * Adiciona uma música à playlist.
-     */
     function addTrackToPlaylist(trackId) {
         if (!currentPlaylist.includes(trackId)) {
             currentPlaylist.push(trackId);
@@ -110,9 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Remove uma música da playlist.
-     */
     function removeTrackFromPlaylist(trackId) {
         currentPlaylist = currentPlaylist.filter(id => id !== trackId);
         console.log(`Música ${trackId} removida.`);
@@ -121,10 +194,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Event Listeners Globais ---
     
-    // 1. Listener para o nome da playlist (Atualiza em tempo real)
+    // Listener para o nome da playlist
     playlistNameInput.addEventListener('input', (e) => {
         playlistName = e.target.value.trim() || 'Playlist Sem Nome';
-        // Limitar a exibição do nome se o input estiver vazio
         if (e.target.value.trim() === "") {
             playlistTitleDisplay.textContent = "Playlist Sem Nome";
         } else {
@@ -132,8 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
-    // 2. Simulação do botão Salvar
+    // Listener para o botão Salvar
     savePlaylistButton.addEventListener('click', () => {
         const finalName = playlistName.trim();
         if (currentPlaylist.length > 0 && finalName) {
@@ -150,6 +221,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Inicializa a UI
+    // Listeners para Navegação
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const view = item.getAttribute('data-view');
+            switchView(view);
+        });
+    });
+
+
+    // --- Inicialização ---
     updateUI();
+    switchView('home'); // Define a view inicial como 'home' (Músicas Visíveis)
 });

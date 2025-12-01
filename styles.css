@@ -245,3 +245,113 @@ body {
 template {
     display: none;
 }
+
+/* NOVO: Estilos para as Views */
+.view {
+    transition: opacity 0.3s ease;
+    width: 100%;
+}
+
+.hidden-view {
+    display: none;
+    opacity: 0;
+}
+
+.active-view {
+    display: block;
+    opacity: 1;
+}
+
+/* NOVO: Estilos de Perfil */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.profile-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    color: var(--bg-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.profile-stats {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background: var(--border-color);
+    margin: 30px 0;
+}
+
+.profile-section-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.profile-section h3 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: var(--text-light);
+}
+
+.profile-grid {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto; /* Permite scroll horizontal */
+    padding-bottom: 10px;
+    scrollbar-width: thin;
+}
+
+.profile-card {
+    min-width: 150px;
+    padding: 15px;
+    background-color: var(--bg-medium);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.profile-card:hover {
+    background-color: #282828;
+}
+
+.card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--bg-dark);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--accent-color);
+}
+
+.profile-card:nth-child(3n) .card-icon { /* Mudar cor do ícone para playlists */
+    background-color: #503d8d;
+    color: var(--text-light);
+}
+
+.card-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap; /* Não quebrar o nome */
+}
+
