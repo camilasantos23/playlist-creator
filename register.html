@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta - DreamMusic</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css"> </head>
+<body>
+    <div class="login-container">
+        <h1 class="logo">🎶 Criar Conta DreamMusic</h1>
+        
+        <form id="register-form" class="login-form">
+            <div class="input-group">
+                <label for="new-email">Email</label>
+                <input type="email" id="new-email" placeholder="Digite seu melhor email" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="new-username">Nome de Usuário</label>
+                <input type="text" id="new-username" placeholder="Escolha um nome de usuário" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="new-password">Senha</label>
+                <input type="password" id="new-password" placeholder="Crie uma senha forte" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="confirm-password">Confirmar Senha</label>
+                <input type="password" id="confirm-password" placeholder="Digite a senha novamente" required>
+            </div>
+            
+            <button type="submit" class="btn primary">Cadastrar</button>
+            
+            <p class="login-feedback" id="feedback-message"></p>
+        </form>
+        
+        <p class="footer-link">
+            Já tem uma conta? <a href="login.html">Faça login aqui.</a>
+        </p>
+    </div>
+
+    <script src="register.js"></script>
+</body>
+</html>
