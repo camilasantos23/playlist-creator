@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: '6', title: 'Levitating', artist: 'Dua Lipa' },
     ];
     
+    // Dados Simulados para o Perfil (NOVO/Recuperado)
     const mockProfileData = {
         artists: [
             { id: 1, name: "The Weeknd", icon: "Mic" },
@@ -29,23 +30,25 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
-    // --- Elementos DOM & Estado ---
+    // --- Estado & Elementos DOM ---
     let currentPlaylist = [];
     let playlistName = document.getElementById('playlist-name').value;
+    let currentSearchTerm = ''; // Variável para o termo de busca
 
-    const navItems = document.querySelectorAll('.nav-item');
-    const views = document.querySelectorAll('.view');
-    
-    const currentPlaylistEl = document.getElementById('current-playlist');
+    // Elementos de Playlist/Busca
     const musicResultsEl = document.getElementById('music-results');
+    const currentPlaylistEl = document.getElementById('current-playlist');
+    const musicItemTemplate = document.getElementById('music-item-template');
+    const playlistItemTemplate = document.getElementById('playlist-item-template');
     const playlistNameInput = document.getElementById('playlist-name');
     const playlistTitleDisplay = document.getElementById('playlist-title-display');
     const savePlaylistButton = document.getElementById('save-playlist');
+    const musicSearchInput = document.getElementById('music-search'); 
     
-    const musicItemTemplate = document.getElementById('music-item-template');
-    const playlistItemTemplate = document.getElementById('playlist-item-template');
+    // Elementos de Navegação e Perfil
+    const navItems = document.querySelectorAll('.nav-item');
+    const views = document.querySelectorAll('.view');
     const profileCardTemplate = document.getElementById('profile-card-template');
-
     const followedArtistsEl = document.getElementById('followed-artists');
     const followedUsersEl = document.getElementById('followed-users');
     const userPlaylistsEl = document.getElementById('user-playlists');
@@ -55,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Alterna a view principal e a navegação ativa.
-     * @param {string} viewId - O ID da view a ser exibida (ex: 'home', 'profile').
      */
     function switchView(viewId) {
         views.forEach(view => {
@@ -76,28 +78,37 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Ações específicas ao mudar de view
+        // Renderiza o perfil se for a view correta, ou atualiza a lista de músicas
         if (viewId === 'profile') {
             renderProfile();
-        } else { // Trata 'home' e qualquer outra view principal
+        } else {
              updateUI(); 
         }
     }
 
-    // --- Funções de Renderização de Perfil ---
 
+    // --- Funções de Renderização de Perfil (REUTILIZADAS) ---
+
+    /**
+     * Cria e retorna um card de perfil (Artista, Usuário, Playlist).
+     */
     function createProfileCard(item, iconName) {
         const clone = profileCardTemplate.content.cloneNode(true);
         clone.querySelector('.card-name').textContent = item.name;
         
         const cardIcon = clone.querySelector('.card-icon');
+        // Usa a API Lucide para injetar o ícone SVG
         cardIcon.innerHTML = `<i data-lucide="${iconName}"></i>`; 
         
+        // Renderiza o ícone
         lucide.createIcons(); 
         
         return clone;
     }
 
+    /**
+     * Renderiza todos os dados na view de Perfil.
+     */
     function renderProfile() {
         followedArtistsEl.innerHTML = '';
         mockProfileData.artists.forEach(artist => {
@@ -115,8 +126,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Funções de Playlist ---
+    // --- Funções de Renderização e Atualização (Playlist e Busca) ---
 
+    /**
+     * Renderiza o item de música na lista de resultados.
+     */
     function renderMusicItem(track) {
         const clone = musicItemTemplate.content.cloneNode(true);
         const addButton = clone.querySelector('.add-btn');
@@ -131,6 +145,9 @@ document.addEventListener('DOMContentLoaded', () => {
         musicResultsEl.appendChild(clone);
     }
 
+    /**
+     * Renderiza o item de música na playlist.
+     */
     function renderPlaylistItem(track) {
         const clone = playlistItemTemplate.content.cloneNode(true);
         const removeButton = clone.querySelector('.remove-btn');
@@ -145,13 +162,28 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPlaylistEl.appendChild(clone);
     }
     
+    /**
+     * Atualiza a exibição da lista de resultados (com filtro) e da playlist.
+     */
     function updateUI() {
         // 1. Atualiza o nome da playlist
         playlistTitleDisplay.textContent = playlistName;
 
-        // 2. Limpa e renderiza a lista de resultados (MÚSICAS VISÍVEIS)
+        // 2. Limpa e renderiza a lista de resultados (AGORA FILTRADA)
         musicResultsEl.innerHTML = '';
-        mockTracks.forEach(renderMusicItem);
+        
+        // Lógica de filtragem
+        const filteredTracks = mockTracks.filter(track => {
+            if (!currentSearchTerm) return true; 
+            
+            const term = currentSearchTerm.toLowerCase();
+            const title = track.title.toLowerCase();
+            const artist = track.artist.toLowerCase();
+            
+            return title.includes(term) || artist.includes(term);
+        });
+
+        filteredTracks.forEach(renderMusicItem); 
 
         // 3. Limpa e renderiza a playlist
         currentPlaylistEl.innerHTML = '';
@@ -176,10 +208,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Funções de Lógica (Playlist) ---
+
     function addTrackToPlaylist(trackId) {
         if (!currentPlaylist.includes(trackId)) {
             currentPlaylist.push(trackId);
-            console.log(`Música ${trackId} adicionada.`);
             updateUI();
         } else {
             alert('Esta música já está na playlist!');
@@ -188,13 +221,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function removeTrackFromPlaylist(trackId) {
         currentPlaylist = currentPlaylist.filter(id => id !== trackId);
-        console.log(`Música ${trackId} removida.`);
         updateUI();
     }
 
     // --- Event Listeners Globais ---
     
-    // Listener para o nome da playlist
+    // 1. Listener para o nome da playlist
     playlistNameInput.addEventListener('input', (e) => {
         playlistName = e.target.value.trim() || 'Playlist Sem Nome';
         if (e.target.value.trim() === "") {
@@ -204,7 +236,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Listener para o botão Salvar
+    // 2. Listener para o campo de busca (Filtro em tempo real)
+    musicSearchInput.addEventListener('input', (e) => {
+        currentSearchTerm = e.target.value.trim();
+        switchView('home'); // Garante que a view de busca esteja ativa ao digitar
+    });
+
+
+    // 3. Simulação do botão Salvar
     savePlaylistButton.addEventListener('click', () => {
         const finalName = playlistName.trim();
         if (currentPlaylist.length > 0 && finalName) {
@@ -220,8 +259,8 @@ document.addEventListener('DOMContentLoaded', () => {
              alert('⚠️ Por favor, dê um nome à sua playlist antes de salvar.');
         }
     });
-
-    // Listeners para Navegação
+    
+    // 4. Listeners para Navegação
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
@@ -232,6 +271,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- Inicialização ---
-    updateUI();
-    switchView('home'); // Define a view inicial como 'home' (Músicas Visíveis)
+    updateUI(); 
+    switchView('home'); 
 });
